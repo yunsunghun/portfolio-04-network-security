@@ -1,0 +1,12 @@
+# 의사 코드 스타일 WAF 규칙 예시 (특정 제품 문법 아님)
+rules:
+  - name: block-suspicious-paths
+    match:
+      path_prefix: ["/.env", "/wp-admin"]
+    action: deny
+    severity: high
+  - name: rate-limit-login
+    match:
+      path: "/login"
+    action: rate_limit
+    requests_per_minute: 60

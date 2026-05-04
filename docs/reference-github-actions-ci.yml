@@ -1,0 +1,19 @@
+# GitHub Actions CI (참고용)
+# 사용법: gh auth refresh -h github.com -s workflow 후
+# 이 파일을 .github/workflows/ci.yml 로 복사해 커밋·푸시.
+
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  sanity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: README exists
+        run: test -f README.md
