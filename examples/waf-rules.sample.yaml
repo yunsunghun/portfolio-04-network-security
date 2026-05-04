@@ -1,12 +1,24 @@
-# 의사 코드 스타일 WAF 규칙 예시 (특정 제품 문법 아님)
+# WAF 규칙 예시 — 데모랩 Lab (의사 스키마)
+tenant: demolab
+environment: lab
 rules:
-  - name: block-suspicious-paths
+  - id: WF-9920
+    name: block-env-leak
     match:
-      path_prefix: ["/.env", "/wp-admin"]
+      path_prefix: ["/.env", "/.git"]
+    action: deny
+    severity: critical
+  - id: WF-9921
+    name: temp-block-bruteforce-range
+    match:
+      src_cidr: "198.51.100.0/27"
+      path: "/auth/login"
     action: deny
     severity: high
-  - name: rate-limit-login
+    notes: "INC 브루트포스 대응 임시(가상)"
+  - id: WF-8801
+    name: rate-limit-bff
     match:
-      path: "/login"
+      path_prefix: ["/v1/orders"]
     action: rate_limit
-    requests_per_minute: 60
+    requests_per_minute: 600
